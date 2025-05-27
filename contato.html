@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
   <title>Contato - Iago</title>
   <style>
   </style>
@@ -20,18 +20,71 @@
 
   <main>
     <h1><strong>Contato</strong></h1>
-    <form action="#" method="POST">
+    <form
+      id="form"
+      action="https://formsubmit.co/iago.molina.anx@gmail.com"
+      method="POST"
+    >
+      <input type="hidden" name="_captcha" value="false" />
+
       <label for="nome">Nome:</label>
       <input type="text" id="nome" name="nome" placeholder="Seu nome" required />
 
       <label for="email">E-mail:</label>
-      <input type="email" id="email" name="email" placeholder="seu@email.com" required />
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="seu@email.com"
+        required
+      />
 
       <label for="mensagem">Mensagem:</label>
-      <textarea id="mensagem" name="mensagem" placeholder="Escreva sua mensagem aqui..." required></textarea>
+      <textarea
+        id="mensagem"
+        name="mensagem"
+        placeholder="Escreva sua mensagem aqui..."
+        required
+      ></textarea>
 
       <button type="submit">Enviar</button>
     </form>
   </main>
+
+  <div id="toast" class="toast">Mensagem enviada com sucesso!</div>
+
+  <script>
+    const form = document.getElementById("form");
+    const toast = document.getElementById("toast");
+
+    /* Popup JS */
+    form.addEventListener("submit", function (e) {
+      e.preventDefault(); 
+
+      const data = new FormData(form);
+
+      fetch(form.action, {
+        method: form.method,
+        body: data,
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
+      .then(response => {
+        if (response.ok) {
+          toast.classList.add("show");
+          form.reset();
+          setTimeout(() => {
+            toast.classList.remove("show");
+          }, 3000);
+        } else {
+          alert("Erro ao enviar a mensagem. Tente novamente.");
+        }
+      })
+      .catch(() => {
+        alert("Erro de conexão. Verifique sua internet e tente novamente.");
+      });
+    });
+  </script>
 </body>
 </html>
